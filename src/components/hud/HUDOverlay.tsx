@@ -8,6 +8,7 @@ export function HUDOverlay() {
   const coords = useSpaceStore((s) => s.fakeCoords)
   const selectedId = useSpaceStore((s) => s.selectedPlanetId)
   const hoveredId = useSpaceStore((s) => s.hoveredPlanetId)
+  const githubUsername = useSpaceStore((s) => s.githubUsername)
 
   return (
     <>
@@ -60,7 +61,7 @@ export function HUDOverlay() {
       >
         <div>SOLAR.SYS / PORTFOLIO.EXE</div>
         <div style={{ color: 'rgba(0, 255, 170, 0.25)', fontSize: '0.58rem', marginTop: '0.2rem' }}>
-          v2.0.0 — SOMYARANJAN
+          v2.0.0 — {githubUsername.toUpperCase()}
         </div>
       </div>
 

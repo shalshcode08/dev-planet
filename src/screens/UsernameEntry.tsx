@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useSpaceStore, type RepoSummary } from '@/store/useSpaceStore'
+import { useNavigate } from 'react-router-dom'
 
 const BOOT_LINES = [
   'SOLAR.SYS v2.0 — PORTFOLIO ENGINE',
@@ -18,7 +19,7 @@ export function UsernameEntry() {
   const inputRef = useRef<HTMLInputElement>(null)
   const setUsername = useSpaceStore((s) => s.setGithubUsername)
   const setAllRepos = useSpaceStore((s) => s.setAllRepos)
-  const setPhase = useSpaceStore((s) => s.setAppPhase)
+  const navigate = useNavigate()
 
   // Boot sequence
   useEffect(() => {
@@ -93,7 +94,7 @@ export function UsernameEntry() {
         }))
       setUsername(username)
       setAllRepos(repos)
-      setPhase('repo-select')
+      navigate('/select')
     } catch {
       setError('NETWORK FAILURE — CHECK COMMS')
       setLoading(false)

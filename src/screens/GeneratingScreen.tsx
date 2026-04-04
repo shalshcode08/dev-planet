@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { useSpaceStore, type EnrichedRepo, type LanguageStat } from '@/store/useSpaceStore'
+import { useNavigate, Navigate } from 'react-router-dom'
 import { getPlanetType, getOrbitConfig } from '@/data/planetTypes'
 
 const TOKEN = import.meta.env.VITE_GITHUB_TOKEN as string | undefined
@@ -48,13 +49,15 @@ export function GeneratingScreen() {
   const allRepos = useSpaceStore((s) => s.allRepos)
   const selectedNames = useSpaceStore((s) => s.selectedRepoNames)
   const setEnrichedRepos = useSpaceStore((s) => s.setEnrichedRepos)
-  const setPhase = useSpaceStore((s) => s.setAppPhase)
+  const navigate = useNavigate()
   const setProgress = useSpaceStore((s) => s.setGeneratingProgress)
   const appendLog = useSpaceStore((s) => s.appendGeneratingLog)
   const progress = useSpaceStore((s) => s.generatingProgress)
   const logs = useSpaceStore((s) => s.generatingLog)
   const resetGenerating = useSpaceStore((s) => s.resetGenerating)
   const ran = useRef(false)
+
+  if (selectedNames.length === 0) return <Navigate to="/select" replace />
 
   useEffect(() => {
     if (ran.current) return
@@ -115,7 +118,7 @@ export function GeneratingScreen() {
     await delay(600)
 
     setEnrichedRepos(enriched)
-    setPhase('solar-system')
+    navigate('/system')
   }
 
   const barWidth = `${progress}%`

@@ -1,6 +1,6 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
-export type AppPhase = 'username-entry' | 'repo-select' | 'generating' | 'solar-system'
 export type PlanetType = 'lava' | 'gas' | 'ice' | 'ocean' | 'desert'
 
 export interface RepoSummary {
@@ -45,7 +45,6 @@ export interface FakeCoords {
 }
 
 interface SpaceStore {
-  appPhase: AppPhase
   githubUsername: string
   allRepos: RepoSummary[]
   selectedRepoNames: string[]   // repo fullNames selected by user
@@ -57,7 +56,6 @@ interface SpaceStore {
   generatingProgress: number     // 0-100
   generatingLog: string[]
 
-  setAppPhase: (phase: AppPhase) => void
   setGithubUsername: (name: string) => void
   setAllRepos: (repos: RepoSummary[]) => void
   toggleRepoSelection: (fullName: string) => void
@@ -71,39 +69,50 @@ interface SpaceStore {
   resetGenerating: () => void
 }
 
-export const useSpaceStore = create<SpaceStore>((set) => ({
-  appPhase: 'username-entry',
-  githubUsername: '',
-  allRepos: [],
-  selectedRepoNames: [],
-  enrichedRepos: [],
-  selectedPlanetId: null,
-  hoveredPlanetId: null,
-  isAnimating: false,
-  fakeCoords: { x: 0, y: 12, z: 32, sector: '7G' },
-  generatingProgress: 0,
-  generatingLog: [],
+export const useSpaceStore = create<SpaceStore>()(
+  persist(
+    (set) => ({
+      githubUsername: '',
+      allRepos: [],
+      selectedRepoNames: [],
+      enrichedRepos: [],
+      selectedPlanetId: null,
+      hoveredPlanetId: null,
+      isAnimating: false,
+      fakeCoords: { x: 0, y: 12, z: 32, sector: '7G' },
+      generatingProgress: 0,
+      generatingLog: [],
 
-  setAppPhase: (phase) => set({ appPhase: phase }),
-  setGithubUsername: (name) => set({ githubUsername: name }),
-  setAllRepos: (repos) => set({ allRepos: repos }),
-  toggleRepoSelection: (fullName) =>
-    set((s) => {
-      const already = s.selectedRepoNames.includes(fullName)
-      if (!already && s.selectedRepoNames.length >= 8) return s
-      return {
-        selectedRepoNames: already
-          ? s.selectedRepoNames.filter((n) => n !== fullName)
-          : [...s.selectedRepoNames, fullName],
-      }
+      setGithubUsername: (name) => set({ githubUsername: name }),
+      setAllRepos: (repos) => set({ allRepos: repos }),
+      toggleRepoSelection: (fullName) =>
+        set((s) => {
+          const already = s.selectedRepoNames.includes(fullName)
+          if (!already && s.selectedRepoNames.length >= 8) return s
+          return {
+            selectedRepoNames: already
+              ? s.selectedRepoNames.filter((n) => n !== fullName)
+              : [...s.selectedRepoNames, fullName],
+          }
+        }),
+      setEnrichedRepos: (repos) => set({ enrichedRepos: repos }),
+      setSelectedPlanet: (id) => set({ selectedPlanetId: id }),
+      setHoveredPlanet: (id) => set({ hoveredPlanetId: id }),
+      setAnimating: (val) => set({ isAnimating: val }),
+      setFakeCoords: (coords) => set({ fakeCoords: coords }),
+      setGeneratingProgress: (n) => set({ generatingProgress: n }),
+      appendGeneratingLog: (line) =>
+        set((s) => ({ generatingLog: [...s.generatingLog.slice(-12), line] })),
+      resetGenerating: () => set({ generatingProgress: 0, generatingLog: [] }),
     }),
-  setEnrichedRepos: (repos) => set({ enrichedRepos: repos }),
-  setSelectedPlanet: (id) => set({ selectedPlanetId: id }),
-  setHoveredPlanet: (id) => set({ hoveredPlanetId: id }),
-  setAnimating: (val) => set({ isAnimating: val }),
-  setFakeCoords: (coords) => set({ fakeCoords: coords }),
-  setGeneratingProgress: (n) => set({ generatingProgress: n }),
-  appendGeneratingLog: (line) =>
-    set((s) => ({ generatingLog: [...s.generatingLog.slice(-12), line] })),
-  resetGenerating: () => set({ generatingProgress: 0, generatingLog: [] }),
-}))
+    {
+      name: 'solar-sys-storage',
+      partialize: (state) => ({
+        githubUsername: state.githubUsername,
+        allRepos: state.allRepos,
+        selectedRepoNames: state.selectedRepoNames,
+        enrichedRepos: state.enrichedRepos,
+      }),
+    }
+  )
+)

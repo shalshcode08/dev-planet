@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useSpaceStore } from '@/store/useSpaceStore'
+import { useNavigate, Navigate } from 'react-router-dom'
 import { getPlanetType } from '@/data/planetTypes'
 
 const PLANET_COLORS: Record<string, string> = {
@@ -24,8 +25,10 @@ export function RepoSelect() {
   const repos = useSpaceStore((s) => s.allRepos)
   const selected = useSpaceStore((s) => s.selectedRepoNames)
   const toggle = useSpaceStore((s) => s.toggleRepoSelection)
-  const setPhase = useSpaceStore((s) => s.setAppPhase)
+  const navigate = useNavigate()
   const [search, setSearch] = useState('')
+
+  if (!username) return <Navigate to="/" replace />
 
   const filtered = repos.filter((r) =>
     r.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -34,7 +37,7 @@ export function RepoSelect() {
 
   function handleLaunch() {
     if (selected.length === 0) return
-    setPhase('generating')
+    navigate('/generating')
   }
 
   return (
