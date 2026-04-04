@@ -72,3 +72,93 @@ body {
   0%, 100% { opacity: 0.6; transform: scale(1); }
   50% { opacity: 0.2; transform: scale(1.08); }
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .repo-select-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1rem;
+    padding: 1rem !important;
+  }
+  
+  .repo-select-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .repo-select-grid {
+    grid-template-columns: 1fr !important;
+    padding: 1rem !important;
+  }
+  
+  .hud-top-right {
+    top: auto !important;
+    bottom: 1.5rem !important;
+    right: 1.5rem !important;
+    text-align: right !important;
+    font-size: 0.55rem !important;
+    line-height: 1.5 !important;
+  }
+  
+  .hud-bottom-left {
+    bottom: 4rem !important; 
+    font-size: 0.65rem !important;
+  }
+  
+  .repo-details-panel {
+    width: 100% !important;
+    padding: 2rem 1.5rem !important;
+    background: rgba(0, 10, 20, 0.95) !important;
+    border-left: none !important;
+    border-top: 1px solid rgba(0, 200, 255, 0.2) !important;
+    justify-content: flex-start !important;
+    overflow-y: auto !important;
+  }
+  
+  .repo-details-title {
+    font-size: 1.5rem !important;
+  }
+  
+  .repo-details-stats {
+    gap: 0.5rem !important;
+  }
+}
+
+/* More Mobile Fixes */
+@media (max-width: 480px) {
+  .auth-container, .generating-container {
+    padding: 0 1rem !important;
+  }
+  
+  .generating-console {
+    height: 180px !important;
+  }
+  
+  .repo-select-controls {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 1rem !important;
+  }
+  
+  .repo-select-controls input {
+    width: 100% !important;
+  }
+  
+  .repo-select-controls > div {
+    width: 100%;
+  }
+  
+  .repo-select-controls button {
+    width: 100%;
+  }
+}
+
+/* Fix Orbit Controls on mobile so they don't block scrolling when on setup screens */
+#root > div {
+  touch-action: none;
+}
+
+.repo-select-grid {
+  touch-action: pan-y;
+}

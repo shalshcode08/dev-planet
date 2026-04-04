@@ -135,7 +135,7 @@ export function GeneratingScreen() {
         backgroundSize: '60px 60px', pointerEvents: 'none',
       }} />
 
-      <div style={{ width: '100%', maxWidth: '520px', padding: '0 2rem' }}>
+      <div style={{ width: '100%', maxWidth: '520px', padding: '0 2rem' }} className="generating-container">
         {/* Header */}
         <div style={{ marginBottom: '2rem' }}>
           <div style={{ fontSize: '0.6rem', color: 'rgba(0,200,255,0.4)', letterSpacing: '0.25em', marginBottom: '0.5rem' }}>
@@ -180,7 +180,7 @@ export function GeneratingScreen() {
           overflowY: 'hidden',
           display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
           gap: '0.2rem',
-        }}>
+        }} className="generating-console">
           {logs.map((line, i) => (
             <motion.div
               key={i}

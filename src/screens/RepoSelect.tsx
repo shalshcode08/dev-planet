@@ -30,6 +30,8 @@ export function RepoSelect() {
 
   if (!username) return <Navigate to="/" replace />
 
+  if (!username) return <Navigate to="/" replace />
+
   const filtered = repos.filter((r) =>
     r.name.toLowerCase().includes(search.toLowerCase()) ||
     (r.description ?? '').toLowerCase().includes(search.toLowerCase())
@@ -45,7 +47,7 @@ export function RepoSelect() {
       width: '100vw', height: '100vh', background: '#000005',
       fontFamily: '"Share Tech Mono", monospace', color: '#00ccff',
       overflow: 'hidden', display: 'flex', flexDirection: 'column',
-    }}>
+    }} className="repo-select-container">
       {/* Subtle grid */}
       <div style={{
         position: 'fixed', inset: 0, opacity: 0.03,
@@ -59,7 +61,7 @@ export function RepoSelect() {
         borderBottom: '1px solid rgba(0,200,255,0.12)',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         flexShrink: 0,
-      }}>
+      }} className="repo-select-header">
         <div>
           <div style={{ fontSize: '0.6rem', color: 'rgba(0,200,255,0.4)', letterSpacing: '0.2em', marginBottom: '0.2rem' }}>
             ◈ REPO SCANNER — @{username.toUpperCase()}
@@ -69,7 +71,7 @@ export function RepoSelect() {
           </div>
         </div>
 
-        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }} className="repo-select-controls">
           {/* Search */}
           <div style={{
             border: '1px solid rgba(0,200,255,0.2)',
@@ -118,7 +120,7 @@ export function RepoSelect() {
         gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
         gap: '0.75rem',
         alignContent: 'start',
-      }}>
+      }} className="repo-select-grid">
         {filtered.length === 0 && (
           <div style={{ gridColumn: '1/-1', textAlign: 'center', color: 'rgba(0,200,255,0.3)', fontSize: '0.7rem', paddingTop: '3rem' }}>
             NO REPOSITORIES MATCH QUERY

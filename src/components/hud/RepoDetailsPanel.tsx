@@ -42,6 +42,7 @@ export function RepoDetailsPanel() {
       initial="hidden"
       animate="visible"
       exit="exit"
+      className="repo-details-panel"
       style={{
         position: 'fixed',
         top: 0,
@@ -66,7 +67,7 @@ export function RepoDetailsPanel() {
         <div style={{ fontSize: '0.7rem', letterSpacing: '0.2em', color: '#00ffaa' }}>
           ◈ TARGET SECURED
         </div>
-        <h2 style={{ margin: 0, fontSize: '2rem', fontWeight: 'normal', color: '#fff', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+        <h2 className="repo-details-title" style={{ margin: 0, fontSize: '2rem', fontWeight: 'normal', color: '#fff', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
           {repo.name}
         </h2>
         {repo.description && (
@@ -76,7 +77,7 @@ export function RepoDetailsPanel() {
         )}
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div className="repo-details-stats" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         <StatRow label="PLANET TYPE" value={repo.planetType.toUpperCase()} color="#00ccff" />
         <StatRow label="PRIMARY LANG" value={repo.language || 'UNKNOWN'} />
         <StatRow label="LINES OF CODE" value={linesOfCode.toLocaleString()} />
