@@ -40,8 +40,20 @@ export function UsernameEntry() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    const username = input.trim()
+    let username = input.trim()
     if (!username) return
+
+    // Clean up if the user pasted a full URL
+    if (username.includes('github.com/')) {
+      const match = username.match(/github\.com\/([^\/]+)/)
+      if (match && match[1]) {
+        username = match[1]
+      }
+    }
+    // Remove @ if present
+    username = username.replace(/^@/, '')
+
+    setInput(username)
     setLoading(true)
     setError('')
     try {
@@ -100,6 +112,7 @@ export function UsernameEntry() {
         position: 'absolute', inset: 0, opacity: 0.04,
         backgroundImage: 'linear-gradient(#00ccff 1px, transparent 1px), linear-gradient(90deg, #00ccff 1px, transparent 1px)',
         backgroundSize: '60px 60px',
+        pointerEvents: 'none',
       }} />
 
       {/* Corner decorations */}
@@ -155,7 +168,7 @@ export function UsernameEntry() {
                 marginBottom: '0.5rem',
               }}>
                 <span style={{ color: '#00ffaa', fontSize: '0.9rem' }}>{'>'}</span>
-                <input
+                <input type="text"
                   ref={inputRef}
                   value={input}
                   onChange={(e) => { setInput(e.target.value); setError('') }}
@@ -230,7 +243,7 @@ function CornerDeco({ position }: { position: string }) {
       borderTop: isTop ? '1px solid rgba(0,200,255,0.2)' : undefined,
       borderBottom: !isTop ? '1px solid rgba(0,200,255,0.2)' : undefined,
       borderLeft: isLeft ? '1px solid rgba(0,200,255,0.2)' : undefined,
-      borderRight: !isLeft ? '1px solid rgba(0,200,255,0.2)' : undefined,
+      borderRight: !isLeft ? '1px solid rgba(0,200,255,0.2)' : undefined, pointerEvents: 'none',
     }} />
   )
 }
