@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { useSpaceStore, type RepoSummary } from '@/store/useSpaceStore'
+import { useSpaceStore } from '@/store/useSpaceStore'
 import { useNavigate } from 'react-router-dom'
+import { fetchUserRepos } from '@/api/github'
+import axios from 'axios'
 
 const BOOT_LINES = [
   'SOLAR.SYS v2.0 — PORTFOLIO ENGINE',
@@ -57,49 +59,22 @@ export function UsernameEntry() {
     setInput(username)
     setLoading(true)
     setError('')
+    
     try {
-      const res = await fetch(`https://api.github.com/users/${username}/repos?per_page=100&sort=updated`)
-      if (res.status === 404) {
-        setError(`USER "${username.toUpperCase()}" NOT FOUND IN REGISTRY`)
-        setLoading(false)
-        return
-      }
-      if (!res.ok) {
-        setError(`TELEMETRY ERROR: ${res.status}`)
-        setLoading(false)
-        return
-      }
-      const data = await res.json() as Array<{
-        id: number; name: string; full_name: string; description: string | null
-        language: string | null; stargazers_count: number; forks_count: number
-        open_issues_count: number; html_url: string; topics: string[]
-        updated_at: string; private: boolean; default_branch: string
-      }>
-      const repos: RepoSummary[] = data
-        .filter((r) => !r.private)
-        .map((r) => ({
-          id: r.id,
-          name: r.name,
-          fullName: r.full_name,
-          description: r.description,
-          language: r.language,
-          stars: r.stargazers_count,
-          forks: r.forks_count,
-          openIssues: r.open_issues_count,
-          htmlUrl: r.html_url,
-          topics: r.topics ?? [],
-          updatedAt: r.updated_at,
-          isPrivate: r.private,
-          defaultBranch: r.default_branch,
-        }))
+      const repos = await fetchUserRepos(username)
       setUsername(username)
       setAllRepos(repos)
       navigate('/select')
-    } catch {
-      setError('NETWORK FAILURE — CHECK COMMS')
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err) && err.response?.status === 404) {
+        setError(`USER "${username.toUpperCase()}" NOT FOUND IN REGISTRY`)
+      } else {
+        setError('NETWORK FAILURE — CHECK COMMS')
+      }
       setLoading(false)
     }
   }
+
 
   return (
     <div style={{

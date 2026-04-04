@@ -1,49 +1,10 @@
 import { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { useSpaceStore, type EnrichedRepo, type LanguageStat } from '@/store/useSpaceStore'
+import { useSpaceStore, type EnrichedRepo } from '@/store/useSpaceStore'
 import { useNavigate, Navigate } from 'react-router-dom'
 import { getPlanetType, getOrbitConfig } from '@/data/planetTypes'
+import { fetchRepoLanguages, fetchRepoOpenPRs, fetchRepoCommits } from '@/api/github'
 
-const TOKEN = import.meta.env.VITE_GITHUB_TOKEN as string | undefined
-
-function authHeaders(): HeadersInit {
-  return TOKEN ? { Authorization: `Bearer ${TOKEN}` } : {}
-}
-
-async function getLanguages(fullName: string): Promise<LanguageStat[]> {
-  const res = await fetch(`https://api.github.com/repos/${fullName}/languages`, { headers: authHeaders() })
-  if (!res.ok) return []
-  const data = await res.json() as Record<string, number>
-  return Object.entries(data)
-    .map(([name, bytes]) => ({ name, bytes }))
-    .sort((a, b) => b.bytes - a.bytes)
-    .slice(0, 5)
-}
-
-async function getOpenPRs(fullName: string): Promise<number> {
-  const res = await fetch(`https://api.github.com/repos/${fullName}/pulls?state=open&per_page=1`, { headers: authHeaders() })
-  if (!res.ok) return 0
-  const link = res.headers.get('Link')
-  if (!link) {
-    const data = await res.json() as unknown[]
-    return Array.isArray(data) ? data.length : 0
-  }
-  const match = link.match(/[?&]page=(\d+)>; rel="last"/)
-  return match ? parseInt(match[1]) : 1
-}
-
-async function getCommits(fullName: string): Promise<number> {
-  // Use contributors stats — faster and counts all commits
-  const res = await fetch(
-    `https://api.github.com/repos/${fullName}/commits?per_page=1`,
-    { headers: authHeaders() }
-  )
-  if (!res.ok) return 0
-  const link = res.headers.get('Link')
-  if (!link) return 1
-  const match = link.match(/[?&]page=(\d+)>; rel="last"/)
-  return match ? parseInt(match[1]) : 1
-}
 
 export function GeneratingScreen() {
   const allRepos = useSpaceStore((s) => s.allRepos)
@@ -83,9 +44,9 @@ export function GeneratingScreen() {
       appendLog(`> SCANNING ${repo.name.toUpperCase()}...`)
 
       const [commits, languages, openPRs] = await Promise.all([
-        getCommits(repo.fullName),
-        getLanguages(repo.fullName),
-        getOpenPRs(repo.fullName),
+        fetchRepoCommits(repo.fullName),
+        fetchRepoLanguages(repo.fullName),
+        fetchRepoOpenPRs(repo.fullName),
       ])
 
       appendLog(`  ↳ ${commits} commits | ${languages[0]?.name ?? 'unknown'} | ${openPRs} open PRs`)
