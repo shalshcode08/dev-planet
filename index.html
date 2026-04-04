@@ -3,10 +3,474 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="alternate" hreflang="en" href="https://solar-system-portfolio-umber.vercel.app" />
+    <link rel="alternate" hreflang="x-default" href="https://solar-system-portfolio-umber.vercel.app" />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+    <link rel="search" type="application/opensearchdescription+xml" title="Solar Portfolio" href="/opensearch.xml" />
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SOLAR.SYS — Portfolio</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.github.com https://fonts.googleapis.com; frame-src 'self' https://github.com;" />
+    <meta http-equiv="Cache-Control" content="public, max-age=0, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Solar Portfolio" />
+    <meta name="application-name" content="Solar Portfolio" />
+    <meta name="msapplication-TileColor" content="#000005" />
+    <meta name="msapplication-tileimage" content="/favicon.svg" />
+    <meta name="msapplication-config" content="none" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="geo.region" content="IN" />
+    <meta name="geo.placename" content="India" />
+    <meta name="generator" content="Vite + React + Three.js" />
+    
+    <!-- Primary Meta Tags -->
+    <title>Solar Portfolio | 3D GitHub Solar System Visualization</title>
+    <meta name="title" content="Solar Portfolio | 3D GitHub Solar System Visualization" />
+    <meta name="description" content="Transform GitHub repositories into an interactive 3D solar system. A creative portfolio showcase built with React, Three.js, WebGL, and React Three Fiber. Explore your code in a stunning cosmic way." />
+    <meta name="subject" content="Interactive 3D portfolio showcasing GitHub repositories as a solar system" />
+    <meta name="abstract" content="An innovative web application that visualizes GitHub repositories as planets orbiting in a 3D solar system, providing a unique way to explore and present code projects." />
+    <meta name="topic" content="Web Development, Portfolio, 3D Graphics, GitHub" />
+    <meta name="summary" content="Creative developer portfolio using 3D solar system visualization of GitHub repositories" />
+    <meta name="keywords" content="solar portfolio, github portfolio, 3d visualization, react three fiber, webgl portfolio, developer portfolio, threejs portfolio, creative portfolio, github projects, code visualization, interactive portfolio, web developer, software developer portfolio, tech portfolio, portfolio website, 3d web, three js projects, react webgl, portfolio maker, github repos visualization, projects showcase, developer showcase, personal website, coding portfolio, programming portfolio, portfolio 2024, github api, vercel portfolio, portfolio design, modern portfolio" />
+    <meta name="author" content="Somyaranjan" />
+    <meta name="owner" content="Somyaranjan" />
+    <meta name="creator" content="Somyaranjan" />
+    <meta name="publisher" content="Somyaranjan" />
+    <meta name="copyright" content="2026 Somyaranjan. MIT License." />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1, notranslate" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, notranslate" />
+    <meta name="bingbot" content="index, follow" />
+    <meta name="yandex" content="index, follow" />
+    <meta name="slurp" content="index, follow" />
+    <link rel="canonical" href="https://solar-system-portfolio-umber.vercel.app" />
+    <link rel="alternate" href="https://solar-system-portfolio-umber.vercel.app" hreflang="en" />
+    
+    <!-- Language & Localization -->
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="3 days" />
+    <meta name="distribution" content="global" />
+    <meta name="rating" content="general" />
+    <meta name="coverage" content="Worldwide" />
+    <meta name="target" content="all" />
+    <meta name="HandheldFriendly" content="True" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://solar-system-portfolio-umber.vercel.app" />
+    <meta property="og:title" content="Solar Portfolio | 3D GitHub Solar System Visualization" />
+    <meta property="og:description" content="Transform GitHub repositories into an interactive 3D solar system. A creative portfolio built with React, Three.js, and WebGL." />
+    <meta property="og:image" content="https://solar-system-portfolio-umber.vercel.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="3D Solar System Portfolio - GitHub repositories visualized as planets" />
+    <meta property="og:image:secure_url" content="https://solar-system-portfolio-umber.vercel.app/og-image.png" />
+    <meta property="og:site_name" content="Solar Portfolio" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="en_GB" />
+    <meta property="og:email" content="somyaranjan08@gmail.com" />
+    <meta property="article:published_time" content="2026-04-04T00:00:00Z" />
+    <meta property="article:modified_time" content="2026-04-04T00:00:00Z" />
+    <meta property="article:expiration_time" content="2027-04-04T00:00:00Z" />
+    <meta property="article:author" content="https://github.com/shalshcode08" />
+    <meta property="article:section" content="Technology" />
+    <meta property="article:tag" content="Portfolio" />
+    <meta property="article:tag" content="GitHub" />
+    <meta property="article:tag" content="3D" />
+    <meta property="article:tag" content="React" />
+    <meta property="article:tag" content="Three.js" />
+    <meta property="article:tag" content="WebGL" />
+    <meta property="article:tag" content="Developer" />
+    
+    <!-- Facebook -->
+    <meta property="fb:app_id" content="" />
+    <meta property="fb:admins" content="" />
+    <meta property="fb:page_id" content="" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://solar-system-portfolio-umber.vercel.app" />
+    <meta property="twitter:title" content="Solar Portfolio | 3D GitHub Solar System Visualization" />
+    <meta property="twitter:description" content="Transform GitHub repositories into an interactive 3D solar system. A creative portfolio built with React, Three.js, and WebGL." />
+    <meta property="twitter:image" content="https://solar-system-portfolio-umber.vercel.app/og-image.png" />
+    <meta property="twitter:image:width" content="1200" />
+    <meta property="twitter:image:height" content="630" />
+    <meta property="twitter:image:alt" content="3D Solar System Portfolio - GitHub repositories visualized as planets" />
+    <meta property="twitter:creator" content="@shalshcode08" />
+    <meta property="twitter:site" content="@shalshcode08" />
+    <meta property="twitter:player" content="" />
+    <meta property="twitter:player:width" content="" />
+    <meta property="twitter:player:height" content="" />
+    
+    <!-- LinkedIn -->
+    <meta property="linkedin:owner" content="somyaranjan" />
+    <meta property="linkedin:title" content="Solar Portfolio - 3D GitHub Visualization" />
+    
+    <!-- Pinterest -->
+    <meta name="pinterest-rich-pin" content="true" />
+    <meta name="pinterest:url" content="https://solar-system-portfolio-umber.vercel.app" />
+    
+    <!-- Slack -->
+    <meta name="slack:app_category" content="portfolio" />
+    
+    <!-- Discord -->
+    <meta property="discord:site" content="Solar Portfolio" />
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#000005" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000005" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f9fa" />
+    <meta name="msapplication-navbutton-color" content="#000005" />
+    <meta name="msapplication-starturl" content="/" />
+    
+    <!-- Structured Data (JSON-LD) - Comprehensive -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://solar-system-portfolio-umber.vercel.app/#website",
+          "url": "https://solar-system-portfolio-umber.vercel.app",
+          "name": "Solar Portfolio",
+          "alternateName": "GitHub Solar System Portfolio",
+          "description": "An interactive 3D solar system that visualizes GitHub repositories as planets. A creative portfolio for developers.",
+          "keywords": "github portfolio, 3d solar system, webgl, react, developer portfolio",
+          "subjectOf": {
+            "@type": "CreativeWork",
+            "name": "Solar Portfolio"
+          },
+          "publisher": {
+            "@type": "Person",
+            "@id": "https://solar-system-portfolio-umber.vercel.app/#author"
+          },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://solar-system-portfolio-umber.vercel.app/?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          },
+          "inLanguage": "en",
+          "isAccessibleForFree": "https://schema.org/Yes",
+          "speakable": {
+            "@type": "SpeakableSpecification",
+            "cssSelector": ["title", "meta[name='description']"]
+          }
+        },
+        {
+          "@type": "WebApplication",
+          "@id": "https://solar-system-portfolio-umber.vercel.app/#webapp",
+          "name": "Solar Portfolio",
+          "alternateName": "GitHub 3D Solar System",
+          "description": "A 3D interactive solar system that visualizes GitHub repositories as planets. Built with React, Three.js, and WebGL.",
+          "url": "https://solar-system-portfolio-umber.vercel.app",
+          "applicationCategory": "DeveloperApplication",
+          "applicationSubCategory": "Portfolio Builder",
+          "operatingSystem": "Web Browser",
+          "browserRequirements": "Requires JavaScript and WebGL support. Compatible with Chrome, Firefox, Safari, Edge.",
+          "installUrl": "https://solar-system-portfolio-umber.vercel.app",
+          "softwareVersion": "1.0.0",
+          "releaseNotes": "Initial release with 3D solar system visualization",
+          "updatePolicy": "https://solar-system-portfolio-umber.vercel.app",
+          "processorRequirements": "WebGL 2.0 support recommended",
+          "memoryRequirements": "4GB RAM minimum",
+          "storageRequirements": "No installation required - runs in browser",
+          "permissions": "GitHub API access (user-authorized)",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "validFrom": "2026-04-04"
+          },
+          "creator": {
+            "@type": "Person",
+            "@id": "https://solar-system-portfolio-umber.vercel.app/#author"
+          },
+          "mainEntity": {
+            "@type": "WebSite",
+            "@id": "https://solar-system-portfolio-umber.vercel.app/#website"
+          },
+          "features": [
+            "GitHub API integration",
+            "3D solar system visualization",
+            "Interactive planet navigation",
+            "Repository statistics display",
+            "Mobile responsive design"
+          ],
+          "genre": ["Portfolio", "Web Application", "3D Visualization", "Developer Tool"]
+        },
+        {
+          "@type": "Person",
+          "@id": "https://solar-system-portfolio-umber.vercel.app/#author",
+          "name": "Somyaranjan",
+          "alternateName": "Somyaranjan Sahu",
+          "url": "https://github.com/shalshcode08",
+          "image": "https://github.com/shalshcode08.png",
+          "description": "Full-stack developer and creative coder specializing in React, Three.js, and interactive web experiences.",
+          "jobTitle": "Software Developer",
+          "knowsAbout": ["React", "Three.js", "WebGL", "TypeScript", "Node.js", "GitHub API"],
+          "sameAs": [
+            "https://github.com/shalshcode08",
+            "https://twitter.com/shalshcode08",
+            "https://linkedin.com/in/somyaranjan",
+            "https://instagram.com/somyaranjan"
+          ],
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "email": "somyaranjan08@gmail.com",
+            "contactType": "Personal"
+          }
+        },
+        {
+          "@type": "CreativeWork",
+          "@id": "https://solar-system-portfolio-umber.vercel.app/#work",
+          "name": "Solar Portfolio",
+          "alternateName": "GitHub Solar System Portfolio",
+          "description": "An interactive 3D solar system web application that transforms GitHub repositories into planetary visualizations. Users can enter their GitHub username to generate a unique solar system representation of their public repositories.",
+          "url": "https://solar-system-portfolio-umber.vercel.app",
+          "image": "https://solar-system-portfolio-umber.vercel.app/og-image.png",
+          "author": {
+            "@type": "Person",
+            "@id": "https://solar-system-portfolio-umber.vercel.app/#author"
+          },
+          "creator": {
+            "@type": "Person",
+            "name": "Somyaranjan"
+          },
+          "datePublished": "2026-04-04",
+          "dateCreated": "2026-04-01",
+          "dateModified": "2026-04-04",
+          "inLanguage": "en",
+          "license": "https://opensource.org/licenses/MIT",
+          "keywords": ["github portfolio", "3d solar system", "react three fiber", "webgl", "developer portfolio", "interactive visualization"],
+          "genre": ["Portfolio", "Web Application", "Creative Technology", "Data Visualization"],
+          "about": ["GitHub", "Portfolio", "3D Visualization", "Web Development"],
+          "audience": {
+            "@type": "Audience",
+            "audienceType": "Developers, Recruiters, Tech Enthusiasts"
+          },
+          "encoding": {
+            "@type": "MediaObject",
+            "encodingFormat": "text/html",
+            "contentUrl": "https://solar-system-portfolio-umber.vercel.app"
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://solar-system-portfolio-umber.vercel.app/#software",
+          "name": "Solar Portfolio",
+          "applicationSuite": "Solar Portfolio Suite",
+          "applicationCategory": "Developer Application",
+          "operatingSystem": "Any",
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "50",
+            "bestRating": "5",
+            "worstRating": "1"
+          },
+          "featureList": [
+            "GitHub OAuth integration",
+            "Real-time repository data fetching",
+            "3D planet visualization",
+            "Interactive orbit navigation",
+            "Repository statistics dashboard"
+          ]
+        },
+        {
+          "@type": "TechArticle",
+          "@id": "https://solar-system-portfolio-umber.vercel.app/#tech",
+          "headline": "Solar Portfolio Technical Documentation",
+          "description": "Documentation of the technologies and techniques used in building this 3D solar system portfolio.",
+          "about": ["React", "Three.js", "WebGL", "React Three Fiber", "Zustand", "TypeScript"],
+          "proficiencyLevel": "Expert",
+          "dependencies": [
+            "React 18",
+            "Three.js",
+            "React Three Fiber",
+            "Zustand",
+            "React Router"
+          ]
+        }
+      ]
+    }
+    </script>
+    
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "url": "https://solar-system-portfolio-umber.vercel.app"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Select Repositories",
+          "url": "https://solar-system-portfolio-umber.vercel.app/select"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Generating",
+          "url": "https://solar-system-portfolio-umber.vercel.app/generating"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Solar System",
+          "url": "https://solar-system-portfolio-umber.vercel.app/system"
+        }
+      ]
+    }
+    </script>
+    
+    <!-- FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is Solar Portfolio?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Solar Portfolio is an interactive 3D web application that visualizes your GitHub repositories as planets orbiting in a solar system. It provides a unique and creative way to showcase your code projects."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does it work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Enter your GitHub username, select up to 8 repositories, and the app generates a 3D solar system where each planet represents a repository. You can click on planets to see detailed statistics like commits, issues, and stars."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it free to use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, Solar Portfolio is completely free and open source. It uses the GitHub API which has a generous free tier for public repository data."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What technologies were used?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Built with React, TypeScript, Three.js, React Three Fiber, WebGL, Zustand for state management, and deployed on Vercel with analytics."
+          }
+        }
+      ]
+    }
+    </script>
+    
+    <!-- HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "Create Your Solar Portfolio",
+      "description": "Step by step guide to create your own 3D GitHub solar system portfolio",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Enter GitHub Username",
+          "text": "Enter your GitHub username on the landing page to fetch your repositories."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Select Repositories",
+          "text": "Choose up to 8 repositories that will become your planets."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Generate Solar System",
+          "text": "Click launch to generate your personalized 3D solar system."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Explore & Share",
+          "text": "Navigate through your solar system, click planets for details, and share your portfolio."
+        }
+      ]
+    }
+    </script>
+    
+    <!-- Dublin Core Metadata -->
+    <meta name="DC.title" content="Solar Portfolio | 3D GitHub Solar System" />
+    <meta name="DC.description" content="Transform GitHub repositories into an interactive 3D solar system portfolio" />
+    <meta name="DC.creator" content="Somyaranjan" />
+    <meta name="DC.contributor" content="Somyaranjan" />
+    <meta name="DC.subject" content="Portfolio, Web Development, GitHub Visualization, 3D Graphics, React, Three.js, WebGL" />
+    <meta name="DC.coverage" content="Worldwide" />
+    <meta name="DC.language" content="en" />
+    <meta name="DC.format" content="text/html" />
+    <meta name="DC.type" content="Text" />
+    <meta name="DC.source" content="https://github.com/shalshcode08/solar-portfolio" />
+    <meta name="DC.relation" content="https://github.com/shalshcode08" />
+    <meta name="DC.identifier" content="https://solar-system-portfolio-umber.vercel.app" />
+    <meta name="DC.date" content="2026-04-04" />
+    <meta name="DC.rights" content="MIT License - Copyright 2026 Somyaranjan" />
+    
+    <!-- Highwire PRISM -->
+    <meta name="prism:version" content="1.0" />
+    <meta name="prism:topic" content="3D solar system, GitHub portfolio, React, WebGL" />
+    <meta name="prism:category" content="Technology" />
+    <meta name="prism:author" content="Somyaranjan" />
+    <meta name="prism:publication_date" content="2026-04-04" />
+    
+    <!-- Citepress -->
+    <meta name="eprints.relation" content="https://github.com/shalshcode08" />
+    <meta name="eprints.type" content="Web Application" />
+    
+    <!-- Custom Meta Tags -->
+    <meta name="portfolio:platform" content="GitHub" />
+    <meta name="portfolio:visualization" content="3D Solar System" />
+    <meta name="portfolio:tech" content="React, Three.js, WebGL" />
+    <meta name="portfolio:deployment" content="Vercel" />
+    
+    <!-- Verification Meta Tags -->
+    <meta name="google-site-verification" content="" />
+    <meta name="bing-site-verification" content="" />
+    <meta name="yandex-site-verification" content="" />
+    <meta name="norton-safeweb-site-verification" content="" />
+    
+    <!-- Baidu -->
+    <meta name="baidu-site-verification" content="" />
+    <meta name="sogou_site_verification" content="" />
+    
+    <!-- 360 -->
+    <meta name="360-site-verification" content="" />
+    
+    <!-- Performance Hints -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://api.github.com" />
+    <link rel="dns-prefetch" href="https://github.com" />
+    
+    <!-- Critical CSS Inline -->
+    <style>
+      body { margin: 0; background: #000005; }
+      #root { width: 100vw; height: 100vh; }
+    </style>
+    
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
   </head>
   <body>

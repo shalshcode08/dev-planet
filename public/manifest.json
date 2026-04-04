@@ -1,0 +1,46 @@
+{
+  "name": "Solar Portfolio",
+  "short_name": "Solar",
+  "description": "Transform GitHub repositories into an interactive 3D solar system",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000005",
+  "theme_color": "#000005",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["portfolio", "developer", "productivity"],
+  "screenshots": [
+    {
+      "src": "/og-image.png",
+      "sizes": "1200x630",
+      "form_factor": "wide",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Enter GitHub Username",
+      "short_name": "Enter User",
+      "description": "Start by entering your GitHub username",
+      "url": "/?action=enter",
+      "icons": [{ "src": "/favicon.svg", "sizes": "96x96" }]
+    },
+    {
+      "name": "View Solar System",
+      "short_name": "View System",
+      "description": "View the 3D solar system visualization",
+      "url": "/system"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
+}

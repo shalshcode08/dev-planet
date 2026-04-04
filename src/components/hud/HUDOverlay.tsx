@@ -1,7 +1,6 @@
 import { useSpaceStore } from '@/store/useSpaceStore'
-import { AnimatePresence } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { RepoDetailsPanel } from './RepoDetailsPanel'
-import { TargetReticle } from './TargetReticle'
 import { ScanlineOverlay } from './ScanlineOverlay'
 
 export function HUDOverlay() {
@@ -13,11 +12,6 @@ export function HUDOverlay() {
   return (
     <>
       <ScanlineOverlay />
-
-      {/* Target reticle on hover */}
-      <AnimatePresence>
-        {hoveredId && !selectedId && <TargetReticle key="reticle" />}
-      </AnimatePresence>
 
       {/* Bottom-left HUD coordinates */}
       <div
@@ -39,8 +33,31 @@ export function HUDOverlay() {
         <div>
           X: {String(coords.x).padStart(7, ' ')}  Y: {String(coords.y).padStart(7, ' ')}  Z: {String(coords.z).padStart(7, ' ')}
         </div>
-        <div style={{ marginTop: '0.3rem', color: 'rgba(0, 255, 170, 0.4)', fontSize: '0.6rem' }}>
-          {selectedId ? `◈ TARGET LOCKED: ${selectedId.toUpperCase()}` : '◈ SCANNING...'}
+        <div style={{ marginTop: '0.3rem', color: 'rgba(0, 255, 170, 0.4)', fontSize: '0.6rem', minHeight: '1.2em' }}>
+          <AnimatePresence mode="wait">
+            {selectedId ? (
+              <motion.span
+                key="selected"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                VIEWING: {selectedId.split('/')[1]}
+              </motion.span>
+            ) : hoveredId ? (
+              <motion.span
+                key="hover"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.6 }}
+                exit={{ opacity: 0 }}
+                style={{ color: 'rgba(255, 170, 0, 0.5)' }}
+              >
+                → {hoveredId.split('/')[1]}
+              </motion.span>
+            ) : (
+              <span>◈ SCANNING...</span>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
@@ -84,7 +101,7 @@ export function HUDOverlay() {
       >
         <div>DRAG — rotate</div>
         <div>SCROLL — zoom</div>
-        <div>CLICK — target planet</div>
+        <div>CLICK — view details</div>
         <div>ESC — release</div>
       </div>
 

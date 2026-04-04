@@ -1,5 +1,6 @@
 import { useRef, useCallback } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { Html } from '@react-three/drei'
 import { Mesh } from 'three'
 import { useSpaceStore, type EnrichedRepo } from '@/store/useSpaceStore'
 import '@/materials/LavaMaterial'
@@ -21,7 +22,9 @@ export function Planet({ config, worldPosition, onSelect }: PlanetProps) {
   const matRef = useRef<{ time: number }>(null)
   const setHovered = useSpaceStore((s) => s.setHoveredPlanet)
   const hoveredId = useSpaceStore((s) => s.hoveredPlanetId)
+  const selectedId = useSpaceStore((s) => s.selectedPlanetId)
   const isHovered = hoveredId === config.fullName
+  const isSelected = selectedId === config.fullName
 
   useFrame((_, delta) => {
     if (matRef.current) matRef.current.time += delta
@@ -48,6 +51,8 @@ export function Planet({ config, worldPosition, onSelect }: PlanetProps) {
 
   const size = config.planetSize * (isHovered ? 1.06 : 1)
   const segs = SEGMENTS_NEAR
+  const labelVisible = isHovered || isSelected
+  const labelColor = isSelected ? '#00ffaa' : '#00ccff'
 
   const renderMaterial = () => {
     switch (config.planetType) {
@@ -70,15 +75,50 @@ export function Planet({ config, worldPosition, onSelect }: PlanetProps) {
   }
 
   return (
-    <mesh
-      ref={meshRef}
-      position={worldPosition}
-      onPointerOver={handlePointerOver}
-      onPointerOut={handlePointerOut}
-      onClick={handleClick}
-    >
-      <sphereGeometry args={[size, segs, segs]} />
-      {renderMaterial()}
-    </mesh>
+    <group>
+      <mesh
+        ref={meshRef}
+        position={worldPosition}
+        onPointerOver={handlePointerOver}
+        onPointerOut={handlePointerOut}
+        onClick={handleClick}
+      >
+        <sphereGeometry args={[size, segs, segs]} />
+        {renderMaterial()}
+      </mesh>
+      
+      {/* Floating label above planet */}
+      {labelVisible && (
+        <Html
+          position={[worldPosition[0], worldPosition[1] + size + 0.8, worldPosition[2]]}
+          center
+          zIndexRange={[100, 0]}
+          style={{
+            pointerEvents: 'none',
+            opacity: labelVisible ? 1 : 0,
+            transition: 'opacity 0.2s ease',
+            fontFamily: '"Share Tech Mono", monospace',
+            color: labelColor,
+            fontSize: isSelected ? '0.75rem' : '0.65rem',
+            letterSpacing: '0.1em',
+            textShadow: '0 0 10px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,0.9)',
+            background: 'rgba(0, 10, 20, 0.5)',
+            border: `1px solid ${labelColor}40`,
+            padding: '0.25rem 0.5rem',
+            borderRadius: '4px',
+            backdropFilter: 'blur(2px)',
+            whiteSpace: 'nowrap',
+            textTransform: 'uppercase',
+            transform: 'translateY(-10px)',
+          }}
+        >
+          {isSelected ? (
+            <span style={{ color: '#00ffaa' }}>● {config.name}</span>
+          ) : (
+            config.name
+          )}
+        </Html>
+      )}
+    </group>
   )
 }
