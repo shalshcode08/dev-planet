@@ -60,13 +60,45 @@ export function SolarSystem() {
     })
   }, [flyBack, isAnimating, selectedId, setSelected])
 
+  const getPlanetPosition = useCallback((id: string): [number, number, number] | null => {
+    const repo = enrichedRepos.find(r => r.fullName === id)
+    if (!repo) return null
+    const angle = repo.initialAngle
+    const x = Math.cos(angle) * repo.orbitRadius
+    const z = Math.sin(angle) * repo.orbitRadius
+    return [x, 0, z]
+  }, [enrichedRepos])
+
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') handleDeselect()
+      if (e.key === 'Escape') {
+        handleDeselect()
+        return
+      }
+      
+      if (enrichedRepos.length === 0) return
+      
+      const currentIndex = selectedId 
+        ? enrichedRepos.findIndex(r => r.fullName === selectedId)
+        : -1
+      
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault()
+        const nextIndex = (currentIndex + 1) % enrichedRepos.length
+        const nextRepo = enrichedRepos[nextIndex]
+        const pos = getPlanetPosition(nextRepo.fullName)
+        if (pos) handlePlanetSelect(nextRepo.fullName, pos)
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault()
+        const prevIndex = currentIndex <= 0 ? enrichedRepos.length - 1 : currentIndex - 1
+        const prevRepo = enrichedRepos[prevIndex]
+        const pos = getPlanetPosition(prevRepo.fullName)
+        if (pos) handlePlanetSelect(prevRepo.fullName, pos)
+      }
     }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
-  }, [handleDeselect])
+  }, [enrichedRepos, selectedId, handleDeselect, handlePlanetSelect, getPlanetPosition, isAnimating])
 
   return (
     <>

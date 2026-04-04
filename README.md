@@ -21,27 +21,6 @@ A 3D interactive solar system portfolio that visualizes your GitHub repositories
 - **Routing:** React Router
 - **API:** Axios + GitHub REST API
 
-## Getting Started
-
-```bash
-# Install dependencies
-bun install
-
-# Create .env.local with your GitHub token
-echo "VITE_GITHUB_TOKEN=your_token_here" > .env.local
-
-# Run development server
-bun run dev
-```
-
-## GitHub Token Setup
-
-1. Go to [GitHub Settings → Developer Settings → Personal access tokens](https://github.com/settings/tokens)
-2. Generate a **Fine-grained** token with:
-   - Repository access: **Public repositories (read-only)**
-   - Permissions: Contents (read)
-3. Add to `.env.local`
-
 ## Deployment
 
 Build for production:

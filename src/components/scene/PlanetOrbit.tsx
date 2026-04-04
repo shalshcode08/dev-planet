@@ -26,6 +26,7 @@ export function PlanetOrbit({ config, onSelect }: PlanetOrbitProps) {
   const groupRef = useRef<Group>(null)
   const angleRef = useRef(config.initialAngle)
   const isAnimating = useSpaceStore((s) => s.isAnimating)
+  const turboMode = useSpaceStore((s) => s.turboMode)
   const [worldPos, setWorldPos] = useState<[number, number, number]>([
     Math.cos(config.initialAngle) * config.orbitRadius,
     0,
@@ -36,7 +37,7 @@ export function PlanetOrbit({ config, onSelect }: PlanetOrbitProps) {
 
   useFrame((_, delta) => {
     if (isAnimating) return
-    angleRef.current += delta * config.orbitSpeed
+    angleRef.current += delta * config.orbitSpeed * (turboMode ? 5 : 1)
     const a = angleRef.current
     const x = Math.cos(a) * config.orbitRadius
     const z = Math.sin(a) * config.orbitRadius

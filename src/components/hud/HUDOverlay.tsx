@@ -1,13 +1,23 @@
+import { useCallback } from 'react'
 import { useSpaceStore } from '@/store/useSpaceStore'
 import { AnimatePresence, motion } from 'framer-motion'
 import { RepoDetailsPanel } from './RepoDetailsPanel'
 import { ScanlineOverlay } from './ScanlineOverlay'
+import { EasterEggs } from './EasterEggs'
 
 export function HUDOverlay() {
   const coords = useSpaceStore((s) => s.fakeCoords)
   const selectedId = useSpaceStore((s) => s.selectedPlanetId)
   const hoveredId = useSpaceStore((s) => s.hoveredPlanetId)
   const githubUsername = useSpaceStore((s) => s.githubUsername)
+
+  const toggleFullscreen = useCallback(() => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen()
+    } else {
+      document.exitFullscreen()
+    }
+  }, [])
 
   return (
     <>
@@ -102,13 +112,52 @@ export function HUDOverlay() {
         <div>DRAG — rotate</div>
         <div>SCROLL — zoom</div>
         <div>CLICK — view details</div>
+        <div>← → — navigate</div>
         <div>ESC — release</div>
+      </div>
+
+      {/* Bottom-right — fullscreen only */}
+      <div
+        style={{
+          position: 'fixed',
+          bottom: '1.5rem',
+          right: '1.5rem',
+          zIndex: 100,
+          pointerEvents: 'auto',
+        }}
+      >
+        <button
+          onClick={toggleFullscreen}
+          style={{
+            fontFamily: '"Share Tech Mono", monospace',
+            fontSize: '0.6rem',
+            padding: '0.5rem 0.75rem',
+            background: 'rgba(0, 255, 170, 0.08)',
+            border: '1px solid rgba(0, 255, 170, 0.25)',
+            color: 'rgba(0, 255, 170, 0.6)',
+            cursor: 'pointer',
+            letterSpacing: '0.05em',
+            transition: 'all 0.2s',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'rgba(0, 255, 170, 0.15)'
+            e.currentTarget.style.color = '#00ffaa'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'rgba(0, 255, 170, 0.08)'
+            e.currentTarget.style.color = 'rgba(0, 255, 170, 0.6)'
+          }}
+        >
+          ⛶ FULLSCREEN
+        </button>
       </div>
 
       {/* Detail panel when planet selected */}
       <AnimatePresence mode="wait">
         {selectedId && <RepoDetailsPanel key={selectedId} />}
       </AnimatePresence>
+
+      <EasterEggs />
     </>
   )
 }

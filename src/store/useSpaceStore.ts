@@ -55,6 +55,7 @@ interface SpaceStore {
   fakeCoords: FakeCoords
   generatingProgress: number     // 0-100
   generatingLog: string[]
+  turboMode: boolean
 
   setGithubUsername: (name: string) => void
   setAllRepos: (repos: RepoSummary[]) => void
@@ -67,6 +68,7 @@ interface SpaceStore {
   setGeneratingProgress: (n: number) => void
   appendGeneratingLog: (line: string) => void
   resetGenerating: () => void
+  setTurboMode: (val: boolean) => void
 }
 
 export const useSpaceStore = create<SpaceStore>()(
@@ -82,6 +84,7 @@ export const useSpaceStore = create<SpaceStore>()(
       fakeCoords: { x: 0, y: 12, z: 32, sector: '7G' },
       generatingProgress: 0,
       generatingLog: [],
+      turboMode: false,
 
       setGithubUsername: (name) => set({ githubUsername: name }),
       setAllRepos: (repos) => set({ allRepos: repos }),
@@ -104,6 +107,7 @@ export const useSpaceStore = create<SpaceStore>()(
       appendGeneratingLog: (line) =>
         set((s) => ({ generatingLog: [...s.generatingLog.slice(-12), line] })),
       resetGenerating: () => set({ generatingProgress: 0, generatingLog: [] }),
+      setTurboMode: (val) => set({ turboMode: val }),
     }),
     {
       name: 'solar-sys-storage',
