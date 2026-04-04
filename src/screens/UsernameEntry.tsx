@@ -10,6 +10,8 @@ import { createClient } from '@supabase/supabase-js'
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined
 
+console.log('[supabase] URL:', SUPABASE_URL, 'KEY:', SUPABASE_KEY ? 'present' : 'missing')
+
 const supabase = SUPABASE_URL && SUPABASE_KEY
   ? createClient(SUPABASE_URL, SUPABASE_KEY)
   : null
