@@ -3,7 +3,6 @@
 A 3D interactive solar system portfolio that visualizes your GitHub repositories as planets orbiting a star. Built with React, Three.js, and React Three Fiber.
 
 ![Solar System](https://img.shields.io/badge/Stack-React%20%2B%20R3F-blue)
-![License](https://img.shields.io/badge/License-MIT-green)
 
 ## Features
 
