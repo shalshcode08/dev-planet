@@ -2,12 +2,11 @@ import { useRef, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { Line } from '@react-three/drei'
 import { Group } from 'three'
-import { useSpaceStore } from '@/store/useSpaceStore'
+import { useSpaceStore, type EnrichedRepo } from '@/store/useSpaceStore'
 import { Planet } from './Planet'
-import type { ProjectConfig } from '@/data/projects'
 
 interface PlanetOrbitProps {
-  config: ProjectConfig
+  config: EnrichedRepo
   onSelect: (id: string, worldPos: [number, number, number]) => void
 }
 
@@ -47,7 +46,6 @@ export function PlanetOrbit({ config, onSelect }: PlanetOrbitProps) {
 
   return (
     <group ref={groupRef}>
-      {/* Orbit ellipse */}
       <Line
         points={orbitPoints}
         color="#334466"

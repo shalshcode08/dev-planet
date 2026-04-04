@@ -1,8 +1,7 @@
 import { useRef, useCallback } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { Mesh } from 'three'
-import { useSpaceStore } from '@/store/useSpaceStore'
-import type { ProjectConfig } from '@/data/projects'
+import { useSpaceStore, type EnrichedRepo } from '@/store/useSpaceStore'
 import '@/materials/LavaMaterial'
 import '@/materials/GasMaterial'
 import '@/materials/IceMaterial'
@@ -10,7 +9,7 @@ import '@/materials/OceanMaterial'
 import '@/materials/DesertMaterial'
 
 interface PlanetProps {
-  config: ProjectConfig
+  config: EnrichedRepo
   worldPosition: [number, number, number]
   onSelect: (id: string, worldPos: [number, number, number]) => void
 }
@@ -22,18 +21,17 @@ export function Planet({ config, worldPosition, onSelect }: PlanetProps) {
   const matRef = useRef<{ time: number }>(null)
   const setHovered = useSpaceStore((s) => s.setHoveredPlanet)
   const hoveredId = useSpaceStore((s) => s.hoveredPlanetId)
-  const isHovered = hoveredId === config.id
+  const isHovered = hoveredId === config.fullName
 
   useFrame((_, delta) => {
     if (matRef.current) matRef.current.time += delta
-    // Self-rotation
     if (meshRef.current) meshRef.current.rotation.y += delta * 0.3
   })
 
   const handlePointerOver = useCallback(() => {
-    setHovered(config.id)
+    setHovered(config.fullName)
     document.body.style.cursor = 'crosshair'
-  }, [config.id, setHovered])
+  }, [config.fullName, setHovered])
 
   const handlePointerOut = useCallback(() => {
     setHovered(null)
@@ -43,9 +41,9 @@ export function Planet({ config, worldPosition, onSelect }: PlanetProps) {
   const handleClick = useCallback(
     (e: { stopPropagation: () => void }) => {
       e.stopPropagation()
-      onSelect(config.id, worldPosition)
+      onSelect(config.fullName, worldPosition)
     },
-    [config.id, worldPosition, onSelect]
+    [config.fullName, worldPosition, onSelect]
   )
 
   const size = config.planetSize * (isHovered ? 1.06 : 1)

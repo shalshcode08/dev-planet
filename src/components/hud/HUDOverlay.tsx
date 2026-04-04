@@ -1,6 +1,6 @@
 import { useSpaceStore } from '@/store/useSpaceStore'
 import { AnimatePresence } from 'framer-motion'
-import { GlitchReveal } from '@/components/hologram/GlitchReveal'
+import { RepoDetailsPanel } from './RepoDetailsPanel'
 import { TargetReticle } from './TargetReticle'
 import { ScanlineOverlay } from './ScanlineOverlay'
 
@@ -87,9 +87,9 @@ export function HUDOverlay() {
         <div>ESC — release</div>
       </div>
 
-      {/* Glitch reveal links when planet selected */}
+      {/* Detail panel when planet selected */}
       <AnimatePresence mode="wait">
-        {selectedId && <GlitchReveal key={selectedId} />}
+        {selectedId && <RepoDetailsPanel key={selectedId} />}
       </AnimatePresence>
     </>
   )

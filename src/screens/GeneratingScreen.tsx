@@ -9,18 +9,6 @@ function authHeaders(): HeadersInit {
   return TOKEN ? { Authorization: `Bearer ${TOKEN}` } : {}
 }
 
-async function getLinkPageCount(url: string): Promise<number> {
-  const res = await fetch(url, { headers: authHeaders() })
-  if (!res.ok) return 0
-  const link = res.headers.get('Link')
-  if (!link) {
-    const data = await res.json() as unknown[]
-    return Array.isArray(data) ? data.length : 0
-  }
-  const match = link.match(/[?&]page=(\d+)>; rel="last"/)
-  return match ? parseInt(match[1]) : 1
-}
-
 async function getLanguages(fullName: string): Promise<LanguageStat[]> {
   const res = await fetch(`https://api.github.com/repos/${fullName}/languages`, { headers: authHeaders() })
   if (!res.ok) return []

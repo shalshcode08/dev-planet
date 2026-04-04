@@ -1,20 +1,17 @@
-import { useRef, useCallback, useState, useEffect } from 'react'
+import { useRef, useCallback, useEffect } from 'react'
 import { useThree } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import { Vector3 } from 'three'
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib'
 import { useSpaceStore } from '@/store/useSpaceStore'
-import { projects } from '@/data/projects'
 import { CentralStar } from './CentralStar'
 import { PlanetOrbit } from './PlanetOrbit'
 import { AsteroidBelt } from './AsteroidBelt'
 import { StarField } from './StarField'
 import { GalaxyBackground } from './GalaxyBackground'
 import { ShootingStars } from './ShootingStars'
-import { HologramPanel } from '@/components/hologram/HologramPanel'
 import { CoordinateUpdater } from '@/components/hud/CoordinateDisplay'
 import { useCameraFlight } from '@/hooks/useCameraFlight'
-import { useGitHubRepos } from '@/hooks/useGitHubRepos'
 
 const HOME_POS = new Vector3(0, 15, 55)
 
@@ -24,13 +21,9 @@ export function SolarSystem() {
   const setSelected = useSpaceStore((s) => s.setSelectedPlanet)
   const selectedId = useSpaceStore((s) => s.selectedPlanetId)
   const isAnimating = useSpaceStore((s) => s.isAnimating)
+  const enrichedRepos = useSpaceStore((s) => s.enrichedRepos)
   const { flyTo, flyBack } = useCameraFlight()
 
-  const [hologramPos, setHologramPos] = useState<Vector3>(new Vector3(0, 0, 0))
-
-  useGitHubRepos()
-
-  // Set initial camera position
   useEffect(() => {
     camera.position.copy(HOME_POS)
   }, [camera])
@@ -40,16 +33,17 @@ export function SolarSystem() {
       if (isAnimating) return
 
       const target = new Vector3(...worldPos)
-      setHologramPos(target.clone())
-
-      // Fly in close
       const dir = target.clone().normalize()
-      const approachPos = target.clone().sub(dir.multiplyScalar(6)).add(new Vector3(0, 3, 0))
+      
+      const rightDir = new Vector3(0, 1, 0).cross(dir).normalize()
+      
+      const approachPos = target.clone().sub(dir.multiplyScalar(7)).add(new Vector3(0, 2, 0))
+      const lookTarget = target.clone().add(rightDir.multiplyScalar(2.5))
 
       setSelected(id)
-      flyTo(approachPos, target, 2.5, () => {
+      flyTo(approachPos, lookTarget, 2.5, () => {
         if (controlsRef.current) {
-          controlsRef.current.target.copy(target)
+          controlsRef.current.target.copy(lookTarget)
         }
       })
     },
@@ -66,7 +60,6 @@ export function SolarSystem() {
     })
   }, [flyBack, isAnimating, selectedId, setSelected])
 
-  // Keyboard: Escape to deselect
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') handleDeselect()
@@ -79,7 +72,6 @@ export function SolarSystem() {
     <>
       <CoordinateUpdater />
 
-      {/* Controls — disabled during animation */}
       <OrbitControls
         ref={controlsRef}
         enabled={!isAnimating}
@@ -91,21 +83,18 @@ export function SolarSystem() {
         onStart={() => {}}
       />
 
-      {/* Background layers */}
       <GalaxyBackground />
       <StarField />
       <ShootingStars />
 
-      {/* Scene */}
       <CentralStar />
 
-      {projects.map((p) => (
-        <PlanetOrbit key={p.id} config={p} onSelect={handlePlanetSelect} />
+      {enrichedRepos.map((repo) => (
+        <PlanetOrbit key={repo.id} config={repo} onSelect={handlePlanetSelect} />
       ))}
 
       <AsteroidBelt />
 
-      {/* Click on empty space = deselect */}
       <mesh
         position={[0, 0, 0]}
         onClick={handleDeselect}
@@ -114,9 +103,6 @@ export function SolarSystem() {
         <sphereGeometry args={[200, 8, 8]} />
         <meshBasicMaterial />
       </mesh>
-
-      {/* Hologram panel when planet selected */}
-      {selectedId && <HologramPanel planetWorldPos={hologramPos} />}
     </>
   )
 }

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useSpaceStore } from '@/store/useSpaceStore'
 import { getPlanetType } from '@/data/planetTypes'
 
