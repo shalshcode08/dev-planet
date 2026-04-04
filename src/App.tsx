@@ -1,6 +1,7 @@
 import { Canvas } from '@react-three/fiber'
 import { Suspense } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { Analytics } from '@vercel/analytics/react'
 import { SolarSystem } from '@/components/scene/SolarSystem'
 import { EffectPipeline } from '@/postprocessing/EffectPipeline'
 import { HUDOverlay } from '@/components/hud/HUDOverlay'
@@ -45,6 +46,7 @@ function SystemRoute() {
 export default function App() {
   return (
     <BrowserRouter>
+      <Analytics />
       <div style={{ width: '100vw', height: '100vh', background: '#000005', overflow: 'hidden' }}>
         <Routes>
           <Route path="/" element={<UsernameEntry />} />

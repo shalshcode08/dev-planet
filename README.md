@@ -1,73 +1,52 @@
-# React + TypeScript + Vite
+# Solar Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A 3D interactive solar system portfolio that visualizes your GitHub repositories as planets orbiting a star. Built with React, Three.js, and React Three Fiber.
 
-Currently, two official plugins are available:
+![Solar System](https://img.shields.io/badge/Stack-React%20%2B%20R3F-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- 🌌 **Interactive 3D Galaxy** - Explore a visually stunning solar system
+- 🪐 **GitHub Integration** - Your repos become planets with unique textures based on language
+- 🎮 **Dynamic Camera** - Fly to planets for detailed repository stats
+- 📱 **Mobile Responsive** - Works on all devices
+- ⚡ **Fast & Secure** - Uses GitHub authenticated API with Axios
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- **Frontend:** React, TypeScript, Vite
+- **3D Engine:** Three.js, React Three Fiber, Drei
+- **Post-processing:** Bloom, ChromaticAberration, Vignette
+- **State:** Zustand
+- **Routing:** React Router
+- **API:** Axios + GitHub REST API
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Getting Started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+```bash
+# Install dependencies
+bun install
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+# Create .env.local with your GitHub token
+echo "VITE_GITHUB_TOKEN=your_token_here" > .env.local
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Run development server
+bun run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## GitHub Token Setup
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. Go to [GitHub Settings → Developer Settings → Personal access tokens](https://github.com/settings/tokens)
+2. Generate a **Fine-grained** token with:
+   - Repository access: **Public repositories (read-only)**
+   - Permissions: Contents (read)
+3. Add to `.env.local`
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Deployment
+
+Build for production:
+```bash
+bun run build
 ```
+
