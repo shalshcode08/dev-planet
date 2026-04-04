@@ -1,4 +1,4 @@
-# Solar Portfolio
+# Dev Planet
 
 A 3D interactive solar system portfolio that visualizes your GitHub repositories as planets orbiting a star. Built with React, Three.js, and React Three Fiber.
 
