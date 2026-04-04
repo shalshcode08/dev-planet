@@ -4,6 +4,7 @@ uniform float time;
 varying vec2 vUv;
 varying vec3 vNormal;
 varying vec3 vViewDir;
+varying vec3 vWorldPos;
 
 void main() {
   // Wave pattern using sine + noise
@@ -22,9 +23,14 @@ void main() {
   color = mix(color, shallows, smoothstep(0.6, 0.8, t));
   color = mix(color, foamCol, smoothstep(0.82, 0.95, foam) * 0.3);
 
-  // Specular highlight
-  vec3 lightDir = normalize(vec3(1.0, 1.0, 2.0));
-  float spec = pow(max(dot(reflect(-lightDir, normalize(vNormal)), normalize(vViewDir)), 0.0), 64.0);
+  // Lighting relative to central star
+  vec3 lightDir = normalize(-vWorldPos);
+  float diff = max(dot(normalize(vNormal), lightDir), 0.0);
+  float ambient = 0.08;
+  float illumination = diff + ambient;
+  vec3 viewDirWorld = normalize(cameraPosition - vWorldPos);
+  vec3 halfVector = normalize(lightDir + viewDirWorld);
+  float spec = pow(max(dot(normalize(vNormal), halfVector), 0.0), 64.0) * step(0.0, diff);
   color += vec3(0.6, 0.85, 1.0) * spec * 0.8;
 
   // Land masses — brownish-green patches
@@ -32,5 +38,5 @@ void main() {
   vec3 landColor = mix(vec3(0.15, 0.25, 0.1), vec3(0.3, 0.4, 0.2), snoise(vUv * 12.0) * 0.5 + 0.5);
   color = mix(color, landColor, step(0.62, land) * 0.9);
 
-  gl_FragColor = vec4(color, 1.0);
+  gl_FragColor = vec4(color * illumination, 1.0);
 }

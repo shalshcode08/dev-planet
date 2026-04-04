@@ -6,6 +6,8 @@ uniform vec3 colorB;
 uniform vec3 colorC;
 varying vec2 vUv;
 varying vec3 vNormal;
+varying vec3 vViewDir;
+varying vec3 vWorldPos;
 
 void main() {
   // Swirling horizontal turbulent bands
@@ -22,9 +24,16 @@ void main() {
   float storm = 1.0 - smoothstep(0.0, 0.12, length(stormUv));
   color = mix(color, vec3(1.0, 0.9, 0.7), storm * 0.5);
 
-  // Edge darkening
-  float rim = dot(normalize(vNormal), vec3(0.0, 0.0, 1.0));
-  color *= 0.6 + 0.4 * rim;
+  // Lighting
+  vec3 lightDir = normalize(-vWorldPos);
+  float diff = max(dot(normalize(vNormal), lightDir), 0.0);
+  float ambient = 0.05;
+  
+  // Soft rim light for gas giants
+  float rim = 1.0 - max(dot(normalize(vViewDir), normalize(vNormal)), 0.0);
+  rim = smoothstep(0.6, 1.0, rim);
+  
+  color = color * (diff + ambient) + vec3(0.2, 0.4, 0.8) * rim * diff * 0.5;
 
   gl_FragColor = vec4(color, 1.0);
 }

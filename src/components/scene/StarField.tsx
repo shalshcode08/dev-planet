@@ -1,10 +1,30 @@
 import { useRef, useMemo } from 'react'
+import { CanvasTexture } from 'three'
 import { useFrame } from '@react-three/fiber'
 import { Points } from 'three'
 
 const STAR_COUNT = 8000
 
+
+function createCircleTexture() {
+  const canvas = document.createElement('canvas')
+  canvas.width = 64
+  canvas.height = 64
+  const ctx = canvas.getContext('2d')
+  if (ctx) {
+    ctx.beginPath()
+    ctx.arc(32, 32, 30, 0, Math.PI * 2)
+    ctx.fillStyle = '#ffffff'
+    ctx.fill()
+    ctx.shadowBlur = 8
+    ctx.shadowColor = '#ffffff'
+  }
+  return new CanvasTexture(canvas)
+}
+
 export function StarField() {
+  const circleTexture = useMemo(() => createCircleTexture(), [])
+
   const ref = useRef<Points>(null)
 
   const positions = useMemo(() => {
@@ -43,6 +63,8 @@ export function StarField() {
         transparent
         opacity={0.85}
         fog={false}
+        map={circleTexture}
+        alphaTest={0.01}
       />
     </points>
   )

@@ -4,6 +4,7 @@ uniform float time;
 uniform float emissiveIntensity;
 varying vec2 vUv;
 varying vec3 vNormal;
+varying vec3 vWorldPos;
 
 void main() {
   // Two-layer noise for lava crack pattern

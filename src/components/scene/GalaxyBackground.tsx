@@ -1,9 +1,29 @@
 import { useMemo } from 'react'
+import { CanvasTexture } from 'three'
 import { Color, AdditiveBlending } from 'three'
 
 const CLOUD_COUNT = 3000
 
+
+function createCircleTexture() {
+  const canvas = document.createElement('canvas')
+  canvas.width = 64
+  canvas.height = 64
+  const ctx = canvas.getContext('2d')
+  if (ctx) {
+    ctx.beginPath()
+    ctx.arc(32, 32, 30, 0, Math.PI * 2)
+    ctx.fillStyle = '#ffffff'
+    ctx.fill()
+    ctx.shadowBlur = 8
+    ctx.shadowColor = '#ffffff'
+  }
+  return new CanvasTexture(canvas)
+}
+
 export function GalaxyBackground() {
+  const circleTexture = useMemo(() => createCircleTexture(), [])
+
   const positions = useMemo(() => {
     const arr = new Float32Array(CLOUD_COUNT * 3)
     const colors = new Float32Array(CLOUD_COUNT * 3)
@@ -41,6 +61,8 @@ export function GalaxyBackground() {
         blending={AdditiveBlending}
         depthWrite={false}
         fog={false}
+        map={circleTexture}
+        alphaTest={0.01}
       />
     </points>
   )

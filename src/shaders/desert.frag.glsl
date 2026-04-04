@@ -3,6 +3,8 @@
 uniform float time;
 varying vec2 vUv;
 varying vec3 vNormal;
+varying vec3 vViewDir;
+varying vec3 vWorldPos;
 
 void main() {
   // Rocky, dusty surface
@@ -25,9 +27,14 @@ void main() {
   float streak = snoise(vec2(vUv.x * 2.0 + time * 0.02, vUv.y * 30.0)) * 0.5 + 0.5;
   color = mix(color, dustCol * 1.2, smoothstep(0.7, 0.9, streak) * 0.2);
 
-  // Rim darkening
-  float rim = dot(normalize(vNormal), vec3(0.0, 0.0, 1.0));
-  color *= 0.5 + 0.5 * rim;
+  // Lighting
+  vec3 lightDir = normalize(-vWorldPos);
+  float diff = max(dot(normalize(vNormal), lightDir), 0.0);
+  float ambient = 0.04;
+  
+  // Dust atmosphere scattering on the lit edge
+  float fresnel = 1.0 - max(dot(normalize(vViewDir), normalize(vNormal)), 0.0);
+  vec3 atmosphere = vec3(0.8, 0.6, 0.4) * pow(fresnel, 3.0) * diff;
 
-  gl_FragColor = vec4(color, 1.0);
+  gl_FragColor = vec4(color * (diff + ambient) + atmosphere, 1.0);
 }

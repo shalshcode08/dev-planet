@@ -30,26 +30,14 @@ export function CentralStar() {
         <starMaterial ref={matRef} />
       </mesh>
 
-      {/* Glow halo 1 */}
-      <mesh ref={glowRef}>
-        <sphereGeometry args={[3.4, 32, 32]} />
-        <meshBasicMaterial color="#ff9900" transparent opacity={0.08} />
-      </mesh>
-
-      {/* Glow halo 2 */}
-      <mesh ref={outerRef}>
-        <sphereGeometry args={[4.2, 32, 32]} />
-        <meshBasicMaterial color="#ffcc44" transparent opacity={0.04} />
-      </mesh>
-
       {/* Sparkle corona */}
       <Sparkles
-        count={120}
-        scale={12}
-        size={3}
-        speed={0.4}
-        color="#ffdd88"
-        opacity={0.7}
+        count={80}
+        scale={10}
+        size={4}
+        speed={0.2}
+        color="#ffaa44"
+        opacity={0.6}
       />
     </group>
   )

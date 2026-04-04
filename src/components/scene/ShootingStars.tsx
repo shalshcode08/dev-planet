@@ -31,14 +31,9 @@ const STREAK_COUNT = 8
 
 export function ShootingStars() {
   const streaks = useRef<Streak[]>(Array.from({ length: STREAK_COUNT }, randomStreak))
-  const linesRef = useRef<Array<{ points: [Vector3, Vector3] }>>([])
-
-  // Initialize
-  if (linesRef.current.length === 0) {
-    linesRef.current = Array.from({ length: STREAK_COUNT }, (_, i) => ({
-      points: [streaks.current[i].start.clone(), streaks.current[i].start.clone()],
-    }))
-  }
+  const linesRef = useRef<Array<{ points: [Vector3, Vector3] }>>(Array.from({ length: STREAK_COUNT }, (_, i) => ({
+    points: [streaks.current[i].start.clone(), streaks.current[i].start.clone()],
+  })))
 
   useFrame((_, delta) => {
     for (let i = 0; i < STREAK_COUNT; i++) {

@@ -63,8 +63,8 @@ export function AsteroidBelt() {
 
   return (
     <instancedMesh ref={meshRef} args={[undefined, undefined, COUNT]} castShadow>
-      <icosahedronGeometry args={[1, 0]} />
-      <meshStandardMaterial color="#554433" roughness={0.9} metalness={0.1} />
+      <dodecahedronGeometry args={[1, 1]} />
+      <meshStandardMaterial color="#6b615c" roughness={1} metalness={0.05} flatShading />
     </instancedMesh>
   )
 }
