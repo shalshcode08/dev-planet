@@ -17,7 +17,7 @@ const supabase = SUPABASE_URL && SUPABASE_KEY
 function logVisit(username: string, repoCount: number) {
   track('username_entered', { username })
   if (!supabase) return
-  supabase.from('visits').insert({ username, repo_count: repoCount }).then(() => {}).catch(() => {})
+  void Promise.resolve(supabase.from('visits').insert({ username, repo_count: repoCount }))
 }
 
 const BOOT_LINES = [
