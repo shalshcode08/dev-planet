@@ -5,26 +5,19 @@ import { useNavigate } from 'react-router-dom'
 import { fetchUserRepos } from '@/api/github'
 import { track } from '@vercel/analytics'
 import axios from 'axios'
+import { createClient } from '@supabase/supabase-js'
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined
 
-function logVisit(username: string, repoCount: number) {
-  // Vercel Analytics — page-level event visible in dashboard
-  track('username_entered', { username })
+const supabase = SUPABASE_URL && SUPABASE_KEY
+  ? createClient(SUPABASE_URL, SUPABASE_KEY)
+  : null
 
-  // Supabase — permanent log: username + repo count + timestamp
-  if (!SUPABASE_URL || !SUPABASE_KEY) return
-  void fetch(`${SUPABASE_URL}/rest/v1/visits`, {
-    method: 'POST',
-    headers: {
-      apikey: SUPABASE_KEY,
-      Authorization: `Bearer ${SUPABASE_KEY}`,
-      'Content-Type': 'application/json',
-      Prefer: 'return=minimal',
-    },
-    body: JSON.stringify({ username, repo_count: repoCount }),
-  }).catch(() => {}) // fire-and-forget, never blocks the user
+function logVisit(username: string, repoCount: number) {
+  track('username_entered', { username })
+  if (!supabase) return
+  void supabase.from('visits').insert({ username, repo_count: repoCount })
 }
 
 const BOOT_LINES = [
