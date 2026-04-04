@@ -10,8 +10,6 @@ import { createClient } from '@supabase/supabase-js'
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined
 
-console.log('[supabase] URL:', SUPABASE_URL, 'KEY:', SUPABASE_KEY ? 'present' : 'missing')
-
 const supabase = SUPABASE_URL && SUPABASE_KEY
   ? createClient(SUPABASE_URL, SUPABASE_KEY)
   : null
@@ -19,7 +17,7 @@ const supabase = SUPABASE_URL && SUPABASE_KEY
 function logVisit(username: string, repoCount: number) {
   track('username_entered', { username })
   if (!supabase) return
-  void supabase.from('visits').insert({ username, repo_count: repoCount })
+  supabase.from('visits').insert({ username, repo_count: repoCount }).then(() => {}).catch(() => {})
 }
 
 const BOOT_LINES = [
