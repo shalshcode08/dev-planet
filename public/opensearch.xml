@@ -7,17 +7,15 @@
   <OutputEncoding>UTF-8</OutputEncoding>
   <AdultContent>false</AdultContent>
   <Language>en-us</Language>
-  < syndicationUrl="https://solar-system-portfolio-umber.vercel.app/rss" />
+  < syndicationUrl="https://devplanet.online/rss" />
   <Image width="16" height="16" type="image/svg+xml">/favicon.svg</Image>
   <Image width="64" height="64" type="image/svg+xml">/favicon.svg</Image>
-  <Url type="text/html" method="get" template="https://solar-system-portfolio-umber.vercel.app/?q={searchTerms}">
+  <Url type="text/html" method="get" template="https://devplanet.online/?q={searchTerms}">
     <Param name="q" value="{searchTerms}"/>
   </Url>
-  <Url type="application/opensearchdescription+xml" rel="self" template="https://solar-system-portfolio-umber.vercel.app/opensearch.xml"/>
-  <Contact>somyaranjan08@gmail.com</Contact>
-  <Developer>Somyaranjan</Developer>
-  <Attribution>Copyright 2026 Somyaranjan</Attribution>
+  <Url type="application/opensearchdescription+xml" rel="self" template="https://devplanet.online/opensearch.xml"/>
+  <Attribution>Copyright 2026</Attribution>
   <License>MIT License</License>
-  <moz:SearchForm>https://solar-system-portfolio-umber.vercel.app</moz:SearchForm>
+  <moz:SearchForm>https://devplanet.online</moz:SearchForm>
   <Tags>portfolio github 3d solar system react threejs webgl</Tags>
 </OpenSearchDescription>
