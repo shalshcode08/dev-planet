@@ -10,6 +10,7 @@ import { UsernameEntry } from '@/screens/UsernameEntry'
 import { RepoSelect } from '@/screens/RepoSelect'
 import { GeneratingScreen } from '@/screens/GeneratingScreen'
 import { SpaceGame } from '@/screens/SpaceGame'
+import { SharedSystemRoute } from '@/screens/SharedSystemRoute'
 import { motion, AnimatePresence } from 'framer-motion'
 import './index.css'
 
@@ -156,6 +157,7 @@ export default function App() {
           <Route path="/generating" element={<GeneratingScreen />} />
           <Route path="/system" element={<SystemRoute />} />
           <Route path="/system-game-101" element={<SpaceGame />} />
+          <Route path="/u/:username" element={<SharedSystemRoute />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>

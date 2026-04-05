@@ -35,7 +35,14 @@
     <loc>https://devplanet.online/system</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <lastmod>2026-04-04</lastmod>
+    <lastmod>2026-04-05</lastmod>
   </url>
-  
+
+  <url>
+    <loc>https://devplanet.online/u/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-04-05</lastmod>
+  </url>
+
 </urlset>

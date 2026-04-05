@@ -1,15 +1,26 @@
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { useSpaceStore } from '@/store/useSpaceStore'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 import { RepoDetailsPanel } from './RepoDetailsPanel'
 import { ScanlineOverlay } from './ScanlineOverlay'
 import { EasterEggs } from './EasterEggs'
 
-export function HUDOverlay() {
-  const coords = useSpaceStore((s) => s.fakeCoords)
-  const selectedId = useSpaceStore((s) => s.selectedPlanetId)
-  const hoveredId = useSpaceStore((s) => s.hoveredPlanetId)
+interface HUDOverlayProps {
+  /** Present when rendering someone else's shared system */
+  sharedUsername?: string
+}
+
+export function HUDOverlay({ sharedUsername }: HUDOverlayProps = {}) {
+  const coords         = useSpaceStore((s) => s.fakeCoords)
+  const selectedId     = useSpaceStore((s) => s.selectedPlanetId)
+  const hoveredId      = useSpaceStore((s) => s.hoveredPlanetId)
   const githubUsername = useSpaceStore((s) => s.githubUsername)
+  const enrichedRepos  = useSpaceStore((s) => s.enrichedRepos)
+  const navigate       = useNavigate()
+
+  const [copyState, setCopyState] = useState<'idle' | 'copied'>('idle')
+  const isSharedView = !!sharedUsername
 
   const toggleFullscreen = useCallback(() => {
     if (!document.fullscreenElement) {
@@ -18,6 +29,15 @@ export function HUDOverlay() {
       document.exitFullscreen()
     }
   }, [])
+
+  const handleShare = useCallback(() => {
+    const shortNames = enrichedRepos.map((r) => r.name).join(',')
+    const url = `https://devplanet.online/u/${githubUsername}?r=${encodeURIComponent(shortNames)}`
+    navigator.clipboard.writeText(url).then(() => {
+      setCopyState('copied')
+      setTimeout(() => setCopyState('idle'), 2200)
+    })
+  }, [githubUsername, enrichedRepos])
 
   return (
     <>
@@ -81,15 +101,28 @@ export function HUDOverlay() {
           fontSize: '0.65rem',
           color: 'rgba(0, 200, 255, 0.35)',
           letterSpacing: '0.15em',
-          pointerEvents: 'none',
           zIndex: 100,
           userSelect: 'none',
+          pointerEvents: isSharedView ? 'auto' : 'none',
         }}
       >
-        <div>SOLAR.SYS / PORTFOLIO.EXE</div>
-        <div style={{ color: 'rgba(0, 255, 170, 0.25)', fontSize: '0.58rem', marginTop: '0.2rem' }}>
-          v2.0.0 — {githubUsername.toUpperCase()}
-        </div>
+        {isSharedView ? (
+          <>
+            <div style={{ color: 'rgba(0, 255, 170, 0.5)', fontSize: '0.58rem', letterSpacing: '0.2em' }}>
+              ◈ VIEWING SOLAR SYSTEM
+            </div>
+            <div style={{ fontSize: '0.85rem', color: '#00ffaa', marginTop: '0.2rem', letterSpacing: '0.12em' }}>
+              @{sharedUsername.toUpperCase()}
+            </div>
+          </>
+        ) : (
+          <>
+            <div>SOLAR.SYS / PORTFOLIO.EXE</div>
+            <div style={{ color: 'rgba(0, 255, 170, 0.25)', fontSize: '0.58rem', marginTop: '0.2rem' }}>
+              v2.0.0 — {githubUsername.toUpperCase()}
+            </div>
+          </>
+        )}
       </div>
 
       {/* Top-right — controls hint */}
@@ -116,7 +149,7 @@ export function HUDOverlay() {
         <div>ESC — release</div>
       </div>
 
-      {/* Bottom-right — fullscreen only */}
+      {/* Bottom-right — action buttons */}
       <div
         style={{
           position: 'fixed',
@@ -124,8 +157,92 @@ export function HUDOverlay() {
           right: '1.5rem',
           zIndex: 100,
           pointerEvents: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-end',
+          gap: '0.5rem',
         }}
       >
+        {isSharedView ? (
+          /* Shared view — CTA to build their own */
+          <button
+            onClick={() => navigate('/')}
+            style={{
+              fontFamily: '"Share Tech Mono", monospace',
+              fontSize: '0.6rem',
+              padding: '0.55rem 1rem',
+              background: 'rgba(0, 255, 170, 0.12)',
+              border: '1px solid rgba(0, 255, 170, 0.45)',
+              color: '#00ffaa',
+              cursor: 'pointer',
+              letterSpacing: '0.08em',
+              transition: 'all 0.2s',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(0, 255, 170, 0.22)'
+              e.currentTarget.style.borderColor = 'rgba(0, 255, 170, 0.7)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'rgba(0, 255, 170, 0.12)'
+              e.currentTarget.style.borderColor = 'rgba(0, 255, 170, 0.45)'
+            }}
+          >
+            ✦ CREATE YOUR OWN UNIVERSE ↗
+          </button>
+        ) : (
+          /* Own view — share button */
+          <AnimatePresence mode="wait">
+            {copyState === 'copied' ? (
+              <motion.div
+                key="copied"
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                style={{
+                  fontFamily: '"Share Tech Mono", monospace',
+                  fontSize: '0.6rem',
+                  padding: '0.5rem 0.75rem',
+                  border: '1px solid rgba(0, 255, 170, 0.5)',
+                  color: '#00ffaa',
+                  letterSpacing: '0.1em',
+                  background: 'rgba(0, 255, 170, 0.08)',
+                }}
+              >
+                ✓ LINK COPIED!
+              </motion.div>
+            ) : (
+              <motion.button
+                key="share"
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                onClick={handleShare}
+                style={{
+                  fontFamily: '"Share Tech Mono", monospace',
+                  fontSize: '0.6rem',
+                  padding: '0.5rem 0.75rem',
+                  background: 'rgba(0, 200, 255, 0.08)',
+                  border: '1px solid rgba(0, 200, 255, 0.25)',
+                  color: 'rgba(0, 200, 255, 0.6)',
+                  cursor: 'pointer',
+                  letterSpacing: '0.05em',
+                  transition: 'all 0.2s',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(0, 200, 255, 0.15)'
+                  e.currentTarget.style.color = '#00ccff'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(0, 200, 255, 0.08)'
+                  e.currentTarget.style.color = 'rgba(0, 200, 255, 0.6)'
+                }}
+              >
+                ⬡ SHARE
+              </motion.button>
+            )}
+          </AnimatePresence>
+        )}
+
         <button
           onClick={toggleFullscreen}
           style={{
