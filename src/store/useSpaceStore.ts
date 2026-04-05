@@ -52,6 +52,7 @@ interface SpaceStore {
   selectedPlanetId: string | null
   hoveredPlanetId: string | null
   isAnimating: boolean
+  introComplete: boolean
   fakeCoords: FakeCoords
   generatingProgress: number     // 0-100
   generatingLog: string[]
@@ -64,6 +65,7 @@ interface SpaceStore {
   setSelectedPlanet: (id: string | null) => void
   setHoveredPlanet: (id: string | null) => void
   setAnimating: (val: boolean) => void
+  setIntroComplete: (val: boolean) => void
   setFakeCoords: (coords: FakeCoords) => void
   setGeneratingProgress: (n: number) => void
   appendGeneratingLog: (line: string) => void
@@ -81,6 +83,7 @@ export const useSpaceStore = create<SpaceStore>()(
       selectedPlanetId: null,
       hoveredPlanetId: null,
       isAnimating: false,
+      introComplete: false,
       fakeCoords: { x: 0, y: 12, z: 32, sector: '7G' },
       generatingProgress: 0,
       generatingLog: [],
@@ -102,6 +105,7 @@ export const useSpaceStore = create<SpaceStore>()(
       setSelectedPlanet: (id) => set({ selectedPlanetId: id }),
       setHoveredPlanet: (id) => set({ hoveredPlanetId: id }),
       setAnimating: (val) => set({ isAnimating: val }),
+      setIntroComplete: (val) => set({ introComplete: val }),
       setFakeCoords: (coords) => set({ fakeCoords: coords }),
       setGeneratingProgress: (n) => set({ generatingProgress: n }),
       appendGeneratingLog: (line) =>
@@ -116,6 +120,7 @@ export const useSpaceStore = create<SpaceStore>()(
         allRepos: state.allRepos,
         selectedRepoNames: state.selectedRepoNames,
         enrichedRepos: state.enrichedRepos,
+        introComplete: state.introComplete,
       }),
     }
   )

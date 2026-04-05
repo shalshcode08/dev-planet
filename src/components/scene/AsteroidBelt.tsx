@@ -22,7 +22,6 @@ export function AsteroidBelt() {
     })
   }, [])
 
-  // Set initial matrices
   useEffect(() => {
     const mesh = meshRef.current
     if (!mesh) return
