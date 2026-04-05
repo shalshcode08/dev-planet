@@ -14,10 +14,11 @@ const supabase = SUPABASE_URL && SUPABASE_KEY
   ? createClient(SUPABASE_URL, SUPABASE_KEY)
   : null
 
-function logVisit(username: string, repoCount: number) {
+async function logVisit(username: string, repoCount: number) {
   track('username_entered', { username })
   if (!supabase) return
-  void Promise.resolve(supabase.from('visits').insert({ username, repo_count: repoCount }))
+  const { error } = await supabase.from('visits').insert({ username, repo_count: repoCount })
+  if (error) console.error('[supabase] insert error:', error)
 }
 
 const BOOT_LINES = [
