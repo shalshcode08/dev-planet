@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useSpaceStore } from '@/store/useSpaceStore'
+import { useNavigate } from 'react-router-dom'
 
 // ─── Key sequence patterns ────────────────────────────────────────────────────
 
@@ -8,6 +9,7 @@ const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRi
 const WARP   = ['w','a','r','p']
 const NOVA   = ['n','o','v','a']
 const HACK   = ['h','a','c','k']
+const GAMEON = ['g','a','m','e','o','n']
 
 const MAX_BUFFER = 12
 
@@ -31,6 +33,7 @@ type EggType = 'turbo' | 'warp' | 'nova' | 'hack' | null
 
 export function EasterEggs() {
   const setTurboMode = useSpaceStore((s) => s.setTurboMode)
+  const navigate = useNavigate()
 
   const [activeEgg, setActiveEgg] = useState<EggType>(null)
   const [hackLines, setHackLines] = useState<string[]>([])
@@ -87,6 +90,7 @@ export function EasterEggs() {
       else if (matchesEnd(WARP)) { activate('warp', 4_000); bufferRef.current = [] }
       else if (matchesEnd(NOVA)) { activate('nova', 3_500); bufferRef.current = [] }
       else if (matchesEnd(HACK)) { triggerHack(); bufferRef.current = [] }
+      else if (matchesEnd(GAMEON)) { navigate('/system-game-101'); bufferRef.current = [] }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
